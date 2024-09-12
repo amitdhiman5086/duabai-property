@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { Outlet } from "react-router-dom";
+import "./App.css";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
+import ContactForm from "./components/ContactUs";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className=" flex  w-screen  flex-col min-h-screen justify-between overflow-x-hidden">
+      <div className="sticky  md:w-[80%] md:mx-auto top-0 z-10 ">
+        <Header />
+      </div>
+      <div className="mb-auto   w-full z-0">
+        <Outlet />
+      </div>
+      <div className="">
+        <ContactForm />
+      </div>
+      <div className="">
+        <Footer />
+      </div>
     </div>
   );
 }
