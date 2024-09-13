@@ -3,6 +3,7 @@ import BackGroundImage from "../components/BackGroundImage";
 import ImageSlider from "../components/OffPlanCrousal";
 import AnotherSection from "../components/AnotherSection";
 import PaymentPlan from "../components/PaymentPlan";
+import FloorPlans from "../components/Floors";
 
 const OffPlanPropertyPage = () => {
   return (
@@ -12,6 +13,7 @@ const OffPlanPropertyPage = () => {
         <div className="w-full h-auto lg:min-w-[80%] rounded-3xl">
           <ImageSlider />
           <AnotherSection />
+          <FloorPlans/>
           <PaymentPlan/>
         </div>
         <div className=" hidden h-auto lg:inline min-w-[20%] space-y-3 ">

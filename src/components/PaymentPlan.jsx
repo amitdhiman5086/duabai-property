@@ -11,7 +11,7 @@ const PaymentPlan = () => {
   return (
     <div className="w-full flex flex-col">
       <div className="py-8">
-        <h2 className="text-2xl font-bold mb-6 text-start">PAYMENT PLAN</h2>
+        <h2 className="text-3xl font-semibold mb-6 text-start">PAYMENT PLAN</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 px-4 lg:px-0">
           {payments.map((payment, index) => (
             <div

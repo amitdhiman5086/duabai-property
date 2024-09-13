@@ -32,7 +32,7 @@ const AnotherSection = () => {
           </p>
         </div>
         <div className="flex flex-col gap-3">
-            <h1 className="text-xl font-bold">Key Highlights</h1>
+            <h1 className="text-3xl font-semibold">Key Highlights</h1>
           <ul className="grid sm:grid-cols-2  grid-flow-row place-content-start space-y-2">
             <li className=" flex gap-2 items-center">
               {" "}
