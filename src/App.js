@@ -17,29 +17,31 @@ function App() {
   }, []);
 
   return (
-    <div className="flex w-screen flex-col min-h-screen justify-between overflow-x-hidden">
+    <div className="flex w-screen flex-col min-h-screen justify-between">
       {/* ScrollToTop Component */}
       <ScrollToTop />
 
-      <div className="w-full h-full ">{isPopUp && <PopUp />}</div>
+      {isPopUp && <PopUp />}
 
-      <div className="sticky md:w-[80%] md:mx-auto top-0 z-10">
+      {/* Update sticky positioning */}
+      <div className="  w-full sticky top-0 z-40"> {/* Updated z-index and removed md:w-[80%] */}
+        <div className="bg-white px-[10%]">
         <Header />
+        </div>
       </div>
 
       <div className="mb-auto w-full z-0">
         <Outlet />
       </div>
 
-      <div className="">
+      <div>
         <ContactForm />
       </div>
 
-      <div className="">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }
 
 export default App;
+

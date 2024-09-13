@@ -1,12 +1,24 @@
 import { Button } from "flowbite-react";
-import React from "react";
+import React, { useState } from "react";
 
 const DubaiHillsInfo = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  
+
+  const handleContactClick = (e) => {
+    e.preventDefault(); // This will prevent the default anchor behavior
+    const contactSection = document.getElementById("contact-us");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsOpen(false); // Close the mobile menu if open
+  };
   return (
     <>
       <div className="my-5 w-[80%] mx-auto ">
         <div className="flex justify-center mb-6">
-          <Button gradientMonochrome="success">REGESTER YOUR INTERSET</Button>
+          <Button onClick={handleContactClick} gradientMonochrome="success">REGESTER YOUR INTERSET</Button>
         </div>
         <div className="flex gap-6 flex-col my-6">
           <div>
