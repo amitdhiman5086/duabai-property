@@ -1,8 +1,11 @@
 import React from 'react'
+import PopUp from '../components/PopUp'
 
 const NotFound = () => {
   return (
-    <div>NotFound</div>
+    <div>
+      
+    </div>
   )
 }
 

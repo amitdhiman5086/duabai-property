@@ -78,6 +78,7 @@ import "swiper/css/pagination";
 import simple from "./asael-pena-qM-I6vV_45E-unsplash.jpg";
 import simple2 from "./jeremy-bishop-K74UfSpaPes-unsplash.jpg";
 import { Button, Card } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 // Sample data
 const data = [
@@ -171,7 +172,9 @@ const CustomCarousel = () => {
                 <p className="text-lg text-gray-700">
                   Payment Plan: {item.paymentPlan}
                 </p>
-                <Button gradientMonochrome="success">More Info</Button>
+                <Link to={"/offproperty/:propType/:propertyTitle"}>
+                  <Button gradientMonochrome="success">More Info</Button>
+                </Link>
               </Card>
             </div>
           </SwiperSlide>

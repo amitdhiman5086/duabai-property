@@ -4,7 +4,7 @@ import React from "react";
 const DubaiHillsInfo = () => {
   return (
     <>
-      <div className="my-5 w-[80%] mx-auto font-light">
+      <div className="my-5 w-[80%] mx-auto ">
         <div className="flex justify-center mb-6">
           <Button gradientMonochrome="success">REGESTER YOUR INTERSET</Button>
         </div>

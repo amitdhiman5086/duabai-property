@@ -7,7 +7,9 @@ const ProjectCardsList = () => {
   return (
     <div>
       {data.map((item) => (
-       <ProjectCard key={item.id} info={item}/>
+        <Link key={item.id} to={"/more-projects"}>
+          <ProjectCard key={item.id} info={item} />
+        </Link>
       ))}
     </div>
   );

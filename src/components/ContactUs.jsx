@@ -37,7 +37,7 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="bg-gray1 flex items-center justify-center w-screen ">
+    <div id="contact-us" className="bg-gray1 flex items-center justify-center w-screen ">
       <div className="w-full bg-gray1 p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold text-white mb-6 text-center">
           Enquire Now & Book a VIP Tour
