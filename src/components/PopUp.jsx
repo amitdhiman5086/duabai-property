@@ -43,39 +43,60 @@ const PopUp = () => {
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
+
     try {
-      let data = JSON.stringify({
+      if (
+        !formData.firstName ||
+        !formData.email ||
+        !formData.phone ||
+        formData.firstName == "" ||
+        formData.email == "" ||
+        formData.phone == ""
+      ) {
+        setSignupStatusError("All fileds are required.");
+        setLoading(false);
+        return;
+      }
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({
         firstName: formData.firstName,
         email: formData.email,
         phone: formData.phone,
         message: formData.message,
       });
 
-      let config = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: "https://api.asquared.ae/api/contactUsUsers",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: data,
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
       };
 
-      axios
-        .request(config)
-        .then((response) => {
-          // console.log(JSON.stringify(response.data));
-          setSignupStatus("Thank you! We will contact you shortly");
+      fetch("https://api.asquared.ae/api/contactUsUsers", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.firstName) {
+            setSignupStatus("Thank you! We will contact you shortly");
+          } else {
+            setSignupStatusError(
+              "Oops! Something went wrong. Please try again later"
+            );
+          }
+          setLoading(false);
         })
         .catch((error) => {
-          // console.log(error);
+          console.error(error);
           setSignupStatusError(
             "Oops! Something went wrong. Please try again later"
           );
           setLoading(false);
         });
     } catch (error) {
-      setSignupStatus("Oops! Something went wrong. Please try again later");
+      setSignupStatusError(
+        "Oops! Something went wrong. Please try again later"
+      );
       setLoading(false);
     }
     const final = setTimeout(() => {
@@ -88,11 +109,8 @@ const PopUp = () => {
       phone: "",
       message: "",
     });
-   
   };
-  // console.log(signupStatus);
-
-
+ 
   // Close the popup
   const closeModal = () => {
     setIsOpen(false);
@@ -136,7 +154,7 @@ const PopUp = () => {
                     type="text"
                     name="firstName"
                     placeholder="Name"
-                    value={formData.name}
+                    value={formData.firstName}
                     onChange={handleChange}
                     className="w-full p-3 bg-white text-black rounded-lg focus:outline-none"
                   />
@@ -183,7 +201,7 @@ const PopUp = () => {
                 type="submit"
                 className="w-full py-3  bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300"
               >
-                {(isLoading) ? "Sending..." : "Send Message"}
+                {isLoading ? "Sending..." : "Send Message"}
               </button>
               {signupStatus && (
                 <Alert className="mt-3" color="success">

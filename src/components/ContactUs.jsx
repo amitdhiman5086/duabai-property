@@ -8,7 +8,7 @@ import { Alert } from "flowbite-react";
 const ContactForm = () => {
   // State management for the form
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
     email: "",
     phone: "",
     message: "",
@@ -39,37 +39,62 @@ const ContactForm = () => {
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
+
     try {
-      let data = JSON.stringify({
+      if (
+        !formData.firstName ||
+        !formData.email ||
+        !formData.phone ||
+        formData.firstName == "" ||
+        formData.email == "" ||
+        formData.phone == ""
+      ) {
+        setSignupStatusError("All fileds are required.");
+        setLoading(false);
+        return;
+      }
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      const raw = JSON.stringify({
         firstName: formData.firstName,
         email: formData.email,
         phone: formData.phone,
         message: formData.message,
       });
 
-      let config = {
+      const requestOptions = {
         method: "POST",
-        url: "https://api.asquared.ae/api/contactUsUsers",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: data,
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
       };
 
- axios.request(config)
-        .then((response) => {
-          // console.log(JSON.stringify(response.data));
-          setSignupStatus("Thank you! We will contact you shortly");
+      fetch("https://api.asquared.ae/api/contactUsUsers", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+        
+          if (result.firstName) {
+            setSignupStatus("Thank you! We will contact you shortly");
+          } else {
+            setSignupStatusError(
+              "Oops! Something went wrong. Please try again later"
+            );
+          
+          }
+          setLoading(false);
         })
         .catch((error) => {
-          // console.log(error);
+          console.error(error);
           setSignupStatusError(
             "Oops! Something went wrong. Please try again later"
           );
           setLoading(false);
         });
     } catch (error) {
-      setSignupStatus("Oops! Something went wrong. Please try again later");
+      setSignupStatusError(
+        "Oops! Something went wrong. Please try again later"
+      );
       setLoading(false);
     }
     const final = setTimeout(() => {
@@ -114,9 +139,9 @@ const ContactForm = () => {
             <div className="w-full md:w-1/3">
               <input
                 type="text"
-                name="name"
+                name="firstName"
                 placeholder="Name"
-                value={formData.name}
+                value={formData.firstName}
                 onChange={handleChange}
                 className="w-full p-3 bg-white text-black rounded-lg focus:outline-none"
               />
