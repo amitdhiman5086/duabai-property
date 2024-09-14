@@ -2,15 +2,22 @@ import React, { useState, useEffect } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "flowbite";
+import axios from "axios";
+import { Alert } from "flowbite-react";
 
 const PopUp = () => {
   // State management for the form
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
     email: "",
     phone: "",
     message: "",
   });
+  const [signupStatus, setSignupStatus] = useState(null);
+  const [signupStatusError, setSignupStatusError] = useState(null);
+  const [isLoading, setLoading] = useState(false);
+
+  const [country, setCountry] = useState("ae");
 
   // State to manage popup visibility
   const [isOpen, setIsOpen] = useState(true); // Start open on page load
@@ -33,16 +40,76 @@ const PopUp = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
-    console.log("Form Data: ", formData);
-    // Perform any further actions (e.g., send data to API)
+    try {
+      let data = JSON.stringify({
+        firstName: formData.firstName,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+      });
+
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: "https://api.asquared.ae/api/contactUsUsers",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+      axios
+        .request(config)
+        .then((response) => {
+          // console.log(JSON.stringify(response.data));
+          setSignupStatus("Thank you! We will contact you shortly");
+        })
+        .catch((error) => {
+          // console.log(error);
+          setSignupStatusError(
+            "Oops! Something went wrong. Please try again later"
+          );
+          setLoading(false);
+        });
+    } catch (error) {
+      setSignupStatus("Oops! Something went wrong. Please try again later");
+      setLoading(false);
+    }
+    const final = setTimeout(() => {
+      setSignupStatus(null);
+      setSignupStatusError(null);
+    }, 10000);
+    setFormData({
+      firstName: "",
+      email: "",
+      phone: "",
+      message: "",
+    });
+   
   };
+  // console.log(signupStatus);
+
 
   // Close the popup
   const closeModal = () => {
     setIsOpen(false);
+    setLoading(false);
   };
+
+  useEffect(() => {
+    const fetchCountryCode = async () => {
+      try {
+        const response = await axios.get("https://ipapi.co/json/");
+        setCountry(response.data.country_code.toLowerCase());
+      } catch (error) {
+        console.error("Error fetching IP location:", error);
+      }
+    };
+    fetchCountryCode();
+  }, []);
 
   return (
     <>
@@ -67,7 +134,7 @@ const PopUp = () => {
                 <div className="w-full ">
                   <input
                     type="text"
-                    name="name"
+                    name="firstName"
                     placeholder="Name"
                     value={formData.name}
                     onChange={handleChange}
@@ -88,7 +155,7 @@ const PopUp = () => {
                 {/* Phone Field with Country Selector */}
                 <div className="w-full ">
                   <PhoneInput
-                    country={"ae"}
+                    country={country}
                     value={formData.phone}
                     onChange={handlePhoneChange}
                     placeholder="Phone"
@@ -114,10 +181,20 @@ const PopUp = () => {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300"
+                className="w-full py-3  bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300"
               >
-                Send Message
+                {(isLoading) ? "Sending..." : "Send Message"}
               </button>
+              {signupStatus && (
+                <Alert className="mt-3" color="success">
+                  {signupStatus}
+                </Alert>
+              )}
+              {signupStatusError && (
+                <Alert className="mt-3" color="failure">
+                  {signupStatusError}
+                </Alert>
+              )}
             </form>
           </div>
         </div>

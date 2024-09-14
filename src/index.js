@@ -7,11 +7,10 @@ import reportWebVitals from "./reportWebVitals";
 import Home from "./pages/Home.jsx";
 import OffPlanPropertyPage from "./pages/OffPlanPropertyPage.jsx";
 import NotFound from "./pages/NotFound.jsx";
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import ViewMoreProjects from "./pages/ViewMoreProjects.jsx";
-
 
 const appRouter = createBrowserRouter(
   [
@@ -23,6 +22,7 @@ const appRouter = createBrowserRouter(
           path: "/",
           element: <Home />,
         },
+
         {
           path: "/offproperty/:propType/:propertyTitle",
           element: <OffPlanPropertyPage />,

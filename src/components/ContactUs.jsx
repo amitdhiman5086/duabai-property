@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "flowbite";
+import axios from "axios";
+import { Alert } from "flowbite-react";
 
 const ContactForm = () => {
   // State management for the form
@@ -9,8 +11,12 @@ const ContactForm = () => {
     name: "",
     email: "",
     phone: "",
-    message: ""
+    message: "",
   });
+  const [country, setCountry] = useState("ae");
+  const [signupStatus, setSignupStatus] = useState(null);
+  const [signupStatusError, setSignupStatusError] = useState(null);
+  const [isLoading, setLoading] = useState(false);
 
   // Handle form input changes
   const handleChange = (e) => {
@@ -30,14 +36,70 @@ const ContactForm = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
-    console.log("Form Data: ", formData);
-    // Perform any further actions (e.g., send data to API)
+    try {
+      let data = JSON.stringify({
+        firstName: formData.firstName,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+      });
+
+      let config = {
+        method: "POST",
+        url: "https://api.asquared.ae/api/contactUsUsers",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      };
+
+ axios.request(config)
+        .then((response) => {
+          // console.log(JSON.stringify(response.data));
+          setSignupStatus("Thank you! We will contact you shortly");
+        })
+        .catch((error) => {
+          // console.log(error);
+          setSignupStatusError(
+            "Oops! Something went wrong. Please try again later"
+          );
+          setLoading(false);
+        });
+    } catch (error) {
+      setSignupStatus("Oops! Something went wrong. Please try again later");
+      setLoading(false);
+    }
+    const final = setTimeout(() => {
+      setSignupStatus(null);
+      setSignupStatusError(null);
+    }, 10000);
+    setFormData({
+      firstName: "",
+      email: "",
+      phone: "",
+      message: "",
+    });
   };
+  useEffect(() => {
+    const fetchCountryCode = async () => {
+      try {
+        const response = await axios.get("https://ipapi.co/json/");
+        setCountry(response.data.country_code.toLowerCase());
+      } catch (error) {
+        console.error("Error fetching IP location:", error);
+      }
+    };
+    fetchCountryCode();
+  }, []);
 
   return (
-    <div id="contact-us" className="bg-gray1 flex items-center justify-center w-screen ">
+    <div
+      id="contact-us"
+      className="bg-gray1 flex items-center justify-center w-screen "
+    >
       <div className="w-full bg-gray1 p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-semibold text-white mb-6 text-center">
           Enquire Now & Book a VIP Tour
@@ -73,7 +135,7 @@ const ContactForm = () => {
             {/* Phone Field with Country Selector */}
             <div className="mb-4 flex items-center mt-3 w-full md:w-1/3">
               <PhoneInput
-                country={"ae"}
+                country={country}
                 value={formData.phone}
                 onChange={handlePhoneChange}
                 placeholder="Phone"
@@ -103,6 +165,16 @@ const ContactForm = () => {
           >
             Send Message
           </button>
+          {signupStatus && (
+            <Alert className="mt-3" color="success">
+              {signupStatus}
+            </Alert>
+          )}
+          {signupStatusError && (
+            <Alert className="mt-3" color="failure">
+              {signupStatusError}
+            </Alert>
+          )}
         </form>
       </div>
     </div>
