@@ -4,8 +4,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { Button, Card } from "flowbite-react";
-import { Link } from "react-router-dom";
+
 
 // Sample data
 const data = [
@@ -51,7 +50,7 @@ const CustomCarousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <div className="w-full h-56 md:h-96 lg:h-screen  rounded-3xl relative">
+    <div className="w-full h-56 md:h-96 lg:h-screen mb-36  rounded-3xl relative">
       {/* Background Image */}
       <div
         className="absolute inset-0 w-full  bg-cover bg-center  transition-all ease-in-out duration-500 "
@@ -59,7 +58,7 @@ const CustomCarousel = () => {
       ></div>
 
       {/* Overlay to darken background for text visibility */}
-      <div className="absolute inset-0 bg-black bg-opacity-50 "></div>
+      <div className=" inset-0 bg-black bg-opacity-50 "></div>
 
       {/* Swiper */}
       <div className="relative z-10 h-full ">
@@ -86,7 +85,7 @@ const CustomCarousel = () => {
       </div>
 
       {/* Thumbnail List */}
-      <div className="absolute bottom-0 left-0 w-full z-10 p-4 flex justify-center space-x-4 ">
+      <div className=" bottom-0 left-0 w-full z-10 p-4 flex justify-center space-x-4 ">
         {data.map((item, index) => (
           <img
             key={item.id}

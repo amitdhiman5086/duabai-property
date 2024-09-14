@@ -25,7 +25,7 @@ function App() {
 
       {/* Update sticky positioning */}
       <div className="  w-full sticky top-0 z-40"> {/* Updated z-index and removed md:w-[80%] */}
-        <div className="bg-white px-[10%]">
+        <div className="bg-white px-[10%] shadow-lg">
         <Header />
         </div>
       </div>

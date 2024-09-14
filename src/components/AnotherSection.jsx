@@ -1,12 +1,22 @@
 import { Button } from "flowbite-react";
-import React from "react";
+import React, { useState } from "react";
 
 const AnotherSection = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleContactClick = (e) => {
+    e.preventDefault(); // This will prevent the default anchor behavior
+    const contactSection = document.getElementById("contact-us");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsOpen(false); // Close the mobile menu if open
+  };
   return (
     <div>
       <div className="my-5  mx-auto ">
         <div className="flex justify-end mb-6">
-          <Button gradientMonochrome="success">DOWNLOAD BROCHURE</Button>
+          <Button  onClick={handleContactClick} gradientMonochrome="success">DOWNLOAD BROCHURE</Button>
         </div>
         <div className="flex gap-6 flex-col my-6 ">
           <p className="text-pretty">
