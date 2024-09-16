@@ -7,7 +7,7 @@ import FloorPlans from "../components/Floors";
 
 const OffPlanPropertyPage = () => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       <BackGroundImage text={"Emaar Park Lane Interiors by Vida"} />{" "}
       <div className="w-[80%] flex flex-row justify-between gap-3 my-10 mx-auto">
         <div className="w-full h-auto lg:min-w-[80%] rounded-3xl">

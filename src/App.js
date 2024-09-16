@@ -30,7 +30,7 @@ function App() {
         </div>
       </div>
 
-      <div className="mb-auto w-full z-0">
+      <div className="mb-auto w-full ">
         <Outlet />
       </div>
 
